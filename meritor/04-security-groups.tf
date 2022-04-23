@@ -18,5 +18,10 @@ resource "aws_security_group" "allow_tls" {
    cidr_blocks = ["0.0.0.0/0"]
  }
 
-  tags = local.tags
+  tags = merge(
+      local.tags,
+      {
+        Name = "Demo Security Group A"
+      },
+    )
 }

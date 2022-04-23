@@ -17,11 +17,23 @@ resource "aws_iam_role" "default" {
   path = "/"
   assume_role_policy  = join("", data.aws_iam_policy_document.assume_role.*.json)
   managed_policy_arns = ["arn:aws:iam::aws:policy/AdministratorAccess"]
+  tags = merge(
+      local.tags,
+      {
+        Name = "Demo Iam Role"
+      },
+    )
 }
 
 resource "aws_iam_instance_profile" "default" {
   name = "ec2-profile"
   role = aws_iam_role.default.name
+  tags = merge(
+      local.tags,
+      {
+        Name = "Demo Iam User"
+      },
+    )
 }
 
 # resource "aws_iam_instance_profile" "default" {

@@ -1,5 +1,5 @@
 locals {
   tags = {
-    "project" = "Meritor Demo"
+    "project" = "Terraform Demo"
   }
 }

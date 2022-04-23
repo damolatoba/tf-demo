@@ -23,19 +23,34 @@ resource "aws_instance" "default" {
   subnet_id                            = aws_subnet.zone_a.id
   iam_instance_profile                 = aws_iam_instance_profile.default.name
 
-  tags = local.tags
+  tags = merge(
+      local.tags,
+      {
+        Name = "Demo Linux VM 01"
+      },
+    )
 }
 
 ## Elastic IP
 resource "aws_eip" "public" {
   instance = aws_instance.default.id
 	vpc = true
-	tags = local.tags
+	tags = merge(
+    local.tags,
+    {
+      Name = "Demo Public IP 01"
+    },
+  )
 }
 
 # NIC
 resource "aws_network_interface" "instance_nic" {
   subnet_id   = aws_subnet.zone_a.id
   security_groups = ["${aws_security_group.allow_tls.id}"]
-  tags = local.tags
+  tags = merge(
+    local.tags,
+    {
+      Name = "Demo Linux NIC 01"
+    },
+  )
 }
