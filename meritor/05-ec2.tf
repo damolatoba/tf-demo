@@ -3,21 +3,19 @@ resource "aws_key_pair" "deployer" {
   public_key = file("~/.ssh/id_ed25519.pub")
 }
 
-data "aws_ami" "ubuntu" {
-  most_recent = "true"
+/* data "aws_ami" "ubuntu" {
+  most_recent = true
+  owners      = ["ubuntu"]
 
   filter {
     name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"]
+    values = ["ubuntu/images/hvm-ssd/ubuntu-*"]
   }
-
-
-  owners = ["099720109477"]
-}
+} */
 
 resource "aws_instance" "default" {
-  ami                  = data.aws_ami.ubuntu.id
-  instance_type        = "t3.micro"
+  ami                  = "ami-04505e74c0741db8d"
+  instance_type        = "t2.micro"
   key_name             = aws_key_pair.deployer.key_name
   security_groups      = [aws_security_group.allow_tls.id]
   subnet_id            = aws_subnet.zone_a.id
